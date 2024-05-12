@@ -69,6 +69,13 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5ED3635AF162476BB206846F60F55462 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_99319EE1B56C4FB185AB5DA08E332EB2 }}
 
+      - uses: azure/appservice-settings@v1
+        with:
+          app-name: 'everyonecancode0508'
+          slot-name: 'Production'  # Optional and needed only if the settings have to be configured on the specific deployment slot
+          app-settings-json: '[{ "name": "CHAT_API_KEY", "value": "${{ secrets.CHAT_API_KEY }}", "slotSetting": false }, { "name": "CHAT_API_ENDPOINT", "value":  "${{ secrets.CHAT_API_ENDPOINT }}", "slotSetting": false }, { "name": "AZURE_OPENAI_MODEL_NAME", "value": "${{ secrets.AZURE_OPENAI_MODEL_NAME }}", "slotSetting": false }]'
+        id: settings
+
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
